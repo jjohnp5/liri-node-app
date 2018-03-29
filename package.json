@@ -1,0 +1,26 @@
+{
+  "name": "smu-week-10-hw",
+  "version": "1.0.0",
+  "description": "Homework for Week 10 SMU Coding Bootcamp",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jjohnp5/smu-week-10-hw.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jjohnp5/smu-week-10-hw/issues"
+  },
+  "homepage": "https://github.com/jjohnp5/smu-week-10-hw#readme",
+  "dependencies": {
+    "dotenv": "^5.0.1",
+    "node-spotify-api": "^1.0.7",
+    "request": "^2.85.0",
+    "twitter": "^1.7.1"
+  }
+}
