@@ -93,8 +93,15 @@ switch (process.argv[2]) {
                             for(let i = 0; i < d.tracks.items.length; i++){
                                 if(d.tracks.items[i].artists[0].name === res.artist){
                                     let s = d.tracks.items[i];
-                                    console.log(s.artists[0].name, " - " + s.name, "\nurl: " + s.external_urls.spotify, "\nAlbum: " + s.album.name);
-                                    fs.appendFile('log.txt', s.artists[0].name + " - " + s.name + "\nurl: " + s.external_urls.spotify + "\nAlbum: " + s.album.name+"\n", (err)=>{
+                                    let ss = `
+                                    Artist: ${s.artists[0].name}
+                                    Song Name: ${s.name}
+                                    Song URL: ${s.external_urls.spotify}
+                                    Album: ${s.album.name}
+                                
+                                \n`
+                                console.log(ss);
+                                fs.appendFile('log.txt', ss, (err)=>{
                                         if(err) throw err;
                                     })
                                     i = d.tracks.items.length;
@@ -133,8 +140,15 @@ switch (process.argv[2]) {
                             for(let i = 0; i < d.tracks.items.length; i++){
                                 if(d.tracks.items[i].artists[0].name === res.artist){
                                     let s = d.tracks.items[i];
-                                    console.log(s.artists[0].name, " - " + s.name, "\nurl: " + s.external_urls.spotify, "\nAlbum: " + s.album.name);
-                                    fs.appendFile('log.txt', s.artists[0].name + " - " + s.name + "\nurl: " + s.external_urls.spotify + "\nAlbum: " + s.album.name+"\n", (err)=>{
+                                    let ss = `
+                                        Artist: ${s.artists[0].name}
+                                        Song Name: ${s.name}
+                                        Song URL: ${s.external_urls.spotify}
+                                        Album: ${s.album.name}
+                                    
+                                    \n`
+                                    console.log(ss);
+                                    fs.appendFile('log.txt', ss, (err)=>{
                                         if(err) throw err;
                                     })
                                     i = d.tracks.items.length;
@@ -148,23 +162,27 @@ switch (process.argv[2]) {
         break;
     case ("movie-this"):
         if (!process.argv[3]) {
-            request(`http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&t=Mr.+Nobody`, function(err, res, body){
+            request(`http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&t=Mr.+Nobody&type=movie`, function(err, res, body){
                 let rTomatoes;
                 let response = JSON.parse(body);
                 response.Ratings.forEach((d,i)=>{
                     if(d.Source === "Rotten Tomatoes") rTomatoes = d.Value;
                 })
-                console.log(`
-Title: ${response.Title}
-Year: ${response.Year}
-IMDB Rating: ${response.imdbRating}
-Rotten Tomatoes: ${rTomatoes}
-Country: ${response.Country}
-Language: ${response.Language}
-Plot: ${response.Plot}
-Actors: ${response.Actors}
-
-                `);
+                let str = `
+                Title: ${response.Title}
+                Year: ${response.Year}
+                IMDB Rating: ${response.imdbRating}
+                Rotten Tomatoes: ${rTomatoes}
+                Country: ${response.Country}
+                Language: ${response.Language}
+                Plot: ${response.Plot}
+                Actors: ${response.Actors}
+                
+                                \n`;
+                console.log(str);
+                fs.appendFile('log.txt', str, (err)=>{
+                    if(err) throw err;
+                })
             })
         }else{
             let q = process.argv.filter((data, i) => {
@@ -174,25 +192,45 @@ Actors: ${response.Actors}
             let que = q.reduce((acc, d) => {
                 return acc + "+" + d;
             })
-            request(`http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&t=${que}`, function(err, res, body){
-                let rTomatoes;
+            request(`http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&t=${que}&type=movie`, function(err, res, body){
                 let response = JSON.parse(body);
+                if(response.Response === 'False'){
+                    console.log(response.Error);
+                    fs.appendFile('log.txt', response.Error, (err)=>{
+                        if(err) throw err;
+                    })
+                }else{
+                let rTomatoes;
+                console.log(response)
                 response.Ratings.forEach((d,i)=>{
                     if(d.Source === "Rotten Tomatoes") rTomatoes = d.Value;
                 })
-                console.log(`
-Title: ${response.Title}
-Year: ${response.Year}
-IMDB Rating: ${response.imdbRating}
-Rotten Tomatoes: ${rTomatoes}
-Country: ${response.Country}
-Language: ${response.Language}
-Plot: ${response.Plot}
-Actors: ${response.Actors}
-
-                `);
+                let str = `
+                Title: ${response.Title}
+                Year: ${response.Year}
+                IMDB Rating: ${response.imdbRating}
+                Rotten Tomatoes: ${rTomatoes}
+                Country: ${response.Country}
+                Language: ${response.Language}
+                Plot: ${response.Plot}
+                Actors: ${response.Actors}
+                
+                                \n`;
+                console.log(str);
+                fs.appendFile('log.txt', str, (err)=>{
+                    if(err) throw err;
+                })
+                }
+                
             })
         }
+        break;
+        default:
+            console.log('Default');
+            fs.appendFile('log.txt', 'Command not recognized \n', (err)=>{
+                if(err) throw err;
+            })
+            break;
 
 }
 
