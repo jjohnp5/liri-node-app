@@ -22,7 +22,24 @@ Liri is a system that takes input from users through command line to make it do 
 Run package install command to install all dependencies of the application.
 `npm install`
 
-You will need your own .env file that stores your API Keys and Tokens.
+You will need your own .env file that stores your API Keys and Tokens.  
+On your `.env` file, include the following format:
+```
+# Spotify API keys
+
+SPOTIFY_ID=*Your API key*
+SPOTIFY_SECRET=*Your API secret
+
+# Twitter API keys
+
+TWITTER_CONSUMER_KEY=*Your Api key*
+TWITTER_CONSUMER_SECRET=*Your consumer secret*
+TWITTER_ACCESS_TOKEN_KEY=*Your token key*
+TWITTER_ACCESS_TOKEN_SECRET=*your token secret*
+
+
+OMDB_API_KEY=*Your OMDB API Key*
+```
 
 Create a `keys.js` file that includes has this code inside it. No updates necessary to this code.
 ```
